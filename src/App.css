@@ -28,6 +28,35 @@
   color: #61dafb;
 }
 
+.MuiListItem-root {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+.MuiInput-root {
+    margin-bottom: 10px;
+}
+.MuiToggleButton-root  {
+ width: 50px;
+    height: 15px;
+}
+.MuiSvgIcon-root:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+.icon-container {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    align-self: flex-start;
+}
+#hide {
+    display: none;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
