@@ -134,7 +134,7 @@ const TaskWindow = (props) => {
                                 }}
                                 renderInput={({inputRef, inputProps, InputProps}) => (
                                     <Box sx={{display: 'flex', alignItems: 'center'}}>
-                                        <input ref={inputRef} {...inputProps} />
+                                        <input ref={inputRef} {...inputProps}  placeholder={'Do you need new date?'}/>
                                         {InputProps?.endAdornment}
                                     </Box>
                                 )}>
