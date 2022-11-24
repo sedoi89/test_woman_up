@@ -37,11 +37,11 @@ const TaskWindow = (props) => {
      * @returns {{borderColor: string}}
      */
     function taskVisualization() {
-        if (props.props.todo.date < now.ts) {
-            return {borderColor: 'red', boxShadow: '0px 0px 20px -10px rgba(255,18,18,0.13)'}
-        }
         if (props.props.todo.isDone) {
             return {borderColor: 'green', boxShadow: '0px 0px 20px -10px rgba(0,255,16,0.24)'}
+        }
+        if (props.props.todo.date < now.ts && !props.props.todo.isDone) {
+            return {borderColor: 'red', boxShadow: '0px 0px 20px -10px rgba(255,18,18,0.13)'}
         }
         return {borderColor: 'yellow', boxShadow: '0px 0px 20px -10px rgba(233,255,20,0.13)'}
     }
@@ -51,13 +51,15 @@ const TaskWindow = (props) => {
      * @param e
      */
     function deleteFile(e) {
+
         if (e) {
             const fileRef = ref(storage, props.props.todo.file.fileName);
             deleteObject(fileRef).then(() => console.log('FileDeleted'));
             db.collection('todos').doc(props.props.id).set({
                 todo: {
                     file: {
-                        fileUrl: ''
+                        fileUrl: '',
+                        fileName: ''
                     }
                 }
             }, {merge: true})
@@ -114,7 +116,7 @@ const TaskWindow = (props) => {
                     editingMode ? '' :
                         <ListItemText primary={props.props.todo.value} secondary={`Выполнить до: ${DateTime.fromMillis(
                             props.props.todo.date
-                        ).toFormat('DD')}`}/>
+                        ).toFormat('DD')} \n ${props.props.todo.file.fileName ? 'Файл:' : ''} ${props.props.todo.file.fileName.length > 10? props.props.todo.file.fileName.slice(0, 9) + '...' + props.props.todo.file.fileName.slice(props.props.todo.file.fileName.indexOf('.'), props.props.todo.file.fileName.length) : props.props.todo.file.fileName }`}/>
                 }
                 <ListItemText>
                     {editingMode ?
@@ -157,7 +159,11 @@ const TaskWindow = (props) => {
 
             <div className={' icon-container'}>
                 <Tooltip title={'Delete Task'}>
-                    <DeleteIcon onClick={() => db.collection('todos').doc(props.props.id).delete()}/>
+                    <DeleteIcon onClick={() => {
+                        if (window.confirm('Удалить задачу?')) {
+                            db.collection('todos').doc(props.props.id).delete()
+                        }
+                    }}/>
                 </Tooltip>
                 {
                     /**
