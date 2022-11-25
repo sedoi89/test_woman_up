@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import ToggleButton from '@mui/material/ToggleButton';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -12,14 +12,17 @@ import {Tooltip} from "@mui/material";
  * @constructor
  */
 export default function StandaloneToggleButton(props) {
-    const [selected, setSelected] = React.useState(false);
+    const [selected, setSelected] = useState(null);
+  useEffect(() => {
+      setSelected(!props.value)
+  })
     function update () {
         db.collection('todos').doc(props.id).set({todo: {isDone: !props.value}},{merge:true})
     }
     return (
         <ToggleButton
             value="check"
-            selected={props.value === true? !selected : selected}
+            selected={selected}
             onChange={() => {
                 setSelected(!selected);
                 update();

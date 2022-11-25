@@ -40,7 +40,7 @@ const TaskWindow = (props) => {
         if (props.props.todo.isDone) {
             return {borderColor: 'green', boxShadow: '0px 0px 20px -10px rgba(0,255,16,0.24)'}
         }
-        if (props.props.todo.date < now.ts && !props.props.todo.isDone) {
+        if (props.props.todo.date < now.ts && props.props.todo.isDone === false) {
             return {borderColor: 'red', boxShadow: '0px 0px 20px -10px rgba(255,18,18,0.13)'}
         }
         return {borderColor: 'yellow', boxShadow: '0px 0px 20px -10px rgba(233,255,20,0.13)'}
